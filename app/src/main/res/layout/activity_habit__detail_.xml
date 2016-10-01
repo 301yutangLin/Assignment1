@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.tony.newass1.Habit_Detail_Activity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detail:"
+        android:textSize="30dp"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Habit"
+        android:id="@+id/delete_button"
+        android:layout_above="@+id/cancel_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cancel_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancel_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Complete"
+        android:id="@+id/complete_button"
+        android:layout_above="@+id/delete_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/delete_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Habit: "
+        android:textSize="25dp"
+        android:id="@+id/habit_title_textView"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="45dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Days: "
+        android:id="@+id/days_textView"
+        android:textSize="25dp"
+        android:layout_below="@+id/habit_title_textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="43dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion Count: "
+        android:id="@+id/count_textView"
+        android:textSize="25dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chosen_habit_textView"
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/habit_title_textView"
+        android:layout_alignEnd="@+id/complete_button"
+        android:layout_toEndOf="@+id/habit_title_textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chosen_days_textView"
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/days_textView"
+        android:layout_alignEnd="@+id/chosen_habit_textView"
+        android:layout_toEndOf="@+id/days_textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chosen_count_textView"
+        android:textSize="25dp"
+        android:layout_alignTop="@+id/count_textView"
+        android:layout_alignEnd="@+id/chosen_days_textView"
+        android:layout_toEndOf="@+id/count_textView" />
+
+</RelativeLayout>

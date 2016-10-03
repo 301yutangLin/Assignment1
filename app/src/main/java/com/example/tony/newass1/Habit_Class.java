@@ -46,7 +46,7 @@ public class Habit_Class {
     public ArrayList<String> getHabit_daylist() {
         return habit_daylist;
     }
-    //take in ArrayList parametr and set it as habit's days of the week
+    //take in ArrayList parameter and set it as habit's days of the week
     public void setHabit_daylist(ArrayList<String> habit_daylist) {
         this.habit_daylist = habit_daylist;
     }

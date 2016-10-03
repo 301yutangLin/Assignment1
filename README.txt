@@ -35,3 +35,16 @@ minSdkVersion 18
 targetSdkVersion 24
 versionCode 1
 versionName "1.0"
+---------------------------------------------------------------------------------------------------
+App Description:
+  When open the app, the main page would be the habit history, clicking the view habit button will go
+to Habit Editor page where the users can see the habit that they had added. There will be add habit 
+button when the user can add new habit and back button which return to the main page.
+  When the user are adding the habit, they can set the title, days of the week and the date. A datepicker
+dialog will pop out when the user click on the date. After adding the new habit, the user can see 
+the habit that they added in the HaHebit Editor page. 
+  The user can click on the habit on the list which goes to Detail activity where there are two buttons. The complete button and delete button. User can delete or complete the habit. The cancel button will just close the activity without changing the habit.
+Also, the user can click the habiy history list in the main page to delete the history.
+---------------------------------------------------------------------------------------------------
+Colaboration:
+-Consult with Zhimao Lin and Chuan Yang

@@ -3,7 +3,6 @@ package com.example.tony.newass1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,29 +70,27 @@ public class Habit_Editor_Activity extends AppCompatActivity {
                 detail_habit  = (Habit_Class)adapterView.getItemAtPosition(i);
                 detailHabitList.clear();
                 detailHabitList.add(detail_habit);
-                Log.d("EDitor record check", String.valueOf(detail_habit.getRecord()));
                 saveInFile();
                 Intent detail_intent = new Intent(Habit_Editor_Activity.this, Habit_Detail_Activity.class);
                 startActivity(detail_intent);
             }
         });
-
-
-
     }
 
     @Override
+    //https://github.com/shidahe/lonelyTwitter
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
+        //adapter.notifyDataSetChanged();
         loadFromFile();
         adapter = new ArrayAdapter<Habit_Class>(this,R.layout.list_item, habitList);
         habitListView.setAdapter(adapter);
     }
-
+    //https://github.com/shidahe/lonelyTwitter
     private void loadFromFile() {
         try {
-            FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fis = openFileInput(FILENAME); //test1.sav
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
             Gson gson = new Gson();
@@ -111,7 +108,7 @@ public class Habit_Editor_Activity extends AppCompatActivity {
             throw new RuntimeException();
         }
     }
-
+    //https://github.com/shidahe/lonelyTwitter
     //save the file for the onclick item
     private void saveInFile() {
         try {
@@ -122,7 +119,6 @@ public class Habit_Editor_Activity extends AppCompatActivity {
 
             Gson gson = new Gson();
             gson.toJson(detailHabitList, out);
-            Log.d("checksave",String.valueOf(detailHabitList.get(0).getRecord()));
             out.flush();
 
             fos.close();

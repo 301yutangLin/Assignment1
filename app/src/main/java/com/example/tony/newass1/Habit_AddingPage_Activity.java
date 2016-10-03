@@ -31,8 +31,8 @@ import java.util.Date;
 
 public class Habit_AddingPage_Activity extends AppCompatActivity {
 
-    public Habit_Class new_habit;
-    public ArrayList<String> tempList;
+    private Habit_Class new_habit;
+    private ArrayList<String> tempList;
 
     private DatePicker datePicker;
     private Calendar calendar;
@@ -84,7 +84,7 @@ public class Habit_AddingPage_Activity extends AppCompatActivity {
                 habit_title = edit_habit.getText().toString();//habit = user input text
                 new_habit = new Habit_Class(habit_title); //create the user input habit class
                 tempList = new ArrayList<String>();
-
+                //check which check box is clicked and add to list
                 if(mon_box.isChecked()){
                     tempList.add("Mon");
                 }else{
@@ -169,7 +169,7 @@ public class Habit_AddingPage_Activity extends AppCompatActivity {
         edit_date.setText(new StringBuilder().append(day).append("-").append(month)
         .append("-").append(year));
     }
-
+    //https://github.com/shidahe/lonelyTwitter
     private void saveInFile() {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,
@@ -190,7 +190,7 @@ public class Habit_AddingPage_Activity extends AppCompatActivity {
             throw new RuntimeException();
         }
     }
-
+    //https://github.com/shidahe/lonelyTwitter
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(FILENAME);

@@ -2,7 +2,6 @@ package com.example.tony.newass1;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +29,9 @@ public class Habit_Detail_Activity extends AppCompatActivity {
     private Habit_Class chosen_item;
     private int replace_num;
 
-    //private static final String COMPLETED_HABIT = "completed_habit.sav";
+    private static final String COMPLETED_HABIT = "completed_habit.sav";
+    private ArrayList<Habit_Class> habit_history = new ArrayList<Habit_Class>();
+
     //all the habit
     private static final String FILENAME = "test1.sav";
     private ArrayList<Habit_Class> all_habit_list = new ArrayList<Habit_Class>();
@@ -45,57 +46,59 @@ public class Habit_Detail_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit__detail_);
-
+        //set up the button and textview
         complete_Button = (Button)findViewById(R.id.complete_button);
         delete_Button = (Button)findViewById(R.id.delete_button);
         cancel_Button = (Button)findViewById(R.id.cancel_button);
-
         habit_title_view = (TextView) findViewById(R.id.chosen_habit_textView);
         days_view = (TextView) findViewById(R.id.chosen_days_textView);
         count_view = (TextView) findViewById(R.id.chosen_count_textView);
 
-        loadFromFile(); //receive_item_list gets the item clicked
-        loadFromFile_All_Habit(); // all_habit_list got all the items
+        //load the habit list and the onclick item on the habit list
+        loadFromFile(); //detail.sav -> recieve_item_list
+        loadFromFile_All_Habit();//test1.sav->all_habit_list
 
         chosen_item = receive_item_list.get(0); //chosen habit is the onclick item
-        Log.d("renew", String.valueOf(chosen_item.getRecord()));
+        //show the detail of onclick item
         habit_title_view.setText(chosen_item.getHabit_name());
         days_view.setText(chosen_item.getHabit_daylist().toString());
         count_view.setText(String.valueOf(chosen_item.getRecord()));
-        Log.d("RUNING SECOND", "RUN SECOND TIME");
+
         //look for the same item in the all_habit_list
         for(int a =0; a<all_habit_list.size(); a++){
             if(all_habit_list.get(a).equals(chosen_item)){ //if 2 objects are the same
                 update_habit = all_habit_list.get(a); //update_habit is the same item as the onclick item.
-                replace_num = a;
+                replace_num = a; //the index of the onclick item in the habit list
             }
         }
-        Log.d("replace_num", String.valueOf(replace_num));
+
         chosen_record = update_habit.getRecord();
-        Log.d("checking error", "check error");
+        //when click the complete button the habit's completion will plus 1
         complete_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chosen_record = chosen_record + 1;
-                Log.d("CHOSEN RECORD", String.valueOf(chosen_record));
                 update_habit.setRecord(chosen_record);
-                Log.d("what is record?", String.valueOf(chosen_record));
-                all_habit_list.set(replace_num, update_habit);
-                Log.d("UPDATE RUNNING", "checking update");
+                all_habit_list.set(replace_num, update_habit);//replace the old habit with the updated habit
+
+                loadFromFileForHistory();//load the file for history
+                habit_history.add(update_habit);
+                saveInFileForHistory(); // save the file for history
                 saveInFile();
-                finish();
+                finish(); //close the activity
             }
         });
-
+        //delete the habit from the list
         delete_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                all_habit_list.remove(chosen_item);
+                ArrayList<String> testing = new ArrayList<String>();
+                all_habit_list.remove(update_habit);
                 saveInFile();
                 finish();
             }
         });
-
+        //close the activity without any changes
         cancel_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,16 +107,7 @@ public class Habit_Detail_Activity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-        loadFromFile();
-        loadFromFile_All_Habit();
-    }
-
-
+    //https://github.com/shidahe/lonelyTwitter
     private void saveInFile() {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,
@@ -133,9 +127,50 @@ public class Habit_Detail_Activity extends AppCompatActivity {
             // TODO Auto-generated catch block
             throw new RuntimeException();
         }
-    }
+    } //test1.sav <- all_habit_list
+    //https://github.com/shidahe/lonelyTwitter
+    private void saveInFileForHistory() {
+        try {
+            FileOutputStream fos = openFileOutput(COMPLETED_HABIT,
+                    0);
 
-    //all the habit
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+            gson.toJson(habit_history, out);
+            out.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    } //completed_habit.sav <- habit_history
+    //https://github.com/shidahe/lonelyTwitter
+    private void loadFromFileForHistory() {
+        try {
+            FileInputStream fis = openFileInput(COMPLETED_HABIT);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+
+            // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            Type listType = new TypeToken<ArrayList<Habit_Class>>(){}.getType();
+
+            habit_history = gson.fromJson(in,listType);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            habit_history = new ArrayList<Habit_Class>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    }//completed_habit.sav ->habit_history
+    //https://github.com/shidahe/lonelyTwitter
     private void loadFromFile_All_Habit() {
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -155,9 +190,8 @@ public class Habit_Detail_Activity extends AppCompatActivity {
             // TODO Auto-generated catch block
             throw new RuntimeException();
         }
-    }
-
-    //load the item
+    } //test1.sav->all_habit_list
+    //https://github.com/shidahe/lonelyTwitter
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(DETAIL_HABIT);
@@ -177,5 +211,5 @@ public class Habit_Detail_Activity extends AppCompatActivity {
             // TODO Auto-generated catch block
             throw new RuntimeException();
         }
-    }
+    } //detail.sav -> recieve_item_list
 }
